@@ -90,13 +90,13 @@ class Solver:
         guess = validWord(value)
         df = self.solutionPoolDf
         greens = [df.index.str[i]==guess[i] for i in range(wordLen)]
+        df['nogreen_sol'] = ''
+        
         for i in range(wordLen):
             df['green_{0}'.format(i)] += greens[i]
             df['green'] += greens[i]
-        
-        df['nogreen_sol'] = ''
-        for i in range(wordLen):
             df['nogreen_sol'] += df.index.str[i] * (1-df['green_{0}'.format(i)])
+            
         df['nogreen_sol'] = df['nogreen_sol'].str.pad(wordLen, fillchar='*')
         
         for i in range(wordLen):
