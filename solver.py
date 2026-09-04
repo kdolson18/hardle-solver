@@ -9,7 +9,7 @@ from string import ascii_uppercase
 from config import wordLen, words, validWord, frequencies
 from problem import Problem
 
-greenLabels = ['green_{0}'.format(x) for x in range(wordLen)]
+greenLabels = [f'green_{x}' for x in range(wordLen)]
 
 def solve(func):
     """
@@ -93,16 +93,16 @@ class Solver:
         df['nogreen_sol'] = ''
         
         for i in range(wordLen):
-            df['green_{0}'.format(i)] += greens[i]
+            df[f'green_{i}'] += greens[i]
             df['green'] += greens[i]
-            df['nogreen_sol'] += df.index.str[i] * (1-df['green_{0}'.format(i)])
+            df['nogreen_sol'] += df.index.str[i] * (1-df[f'green_{i}'])
             
         df['nogreen_sol'] = df['nogreen_sol'].str.pad(wordLen, fillchar='*')
         
         for i in range(wordLen):
             letter = guess[i]
             containsYellowLetter = df['nogreen_sol'].str.contains(letter)
-            notGreenLetter = df['green_{0}'.format(i)] < 1
+            notGreenLetter = df[f'green_{i}'] < 1
             df.loc[containsYellowLetter & notGreenLetter,'yellow'] +=1
             df.loc[containsYellowLetter & notGreenLetter,'nogreen_sol'] = \
                 df.loc[containsYellowLetter & notGreenLetter,'nogreen_sol']\
